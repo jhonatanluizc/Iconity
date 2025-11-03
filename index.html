@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Android Icon Generator</title>
+    <meta name="description" content="Generate all Android icon sizes from a single image. Free and easy to use!">
+    <meta name="keywords" content="icon generator, android, mipmap, ic_launcher, ic_launcher_round">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .upload-area {
+            border: 3px dashed #ddd;
+            border-radius: 10px;
+            padding: 60px 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #2196F3;
+            background-color: #f8f9ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #2196F3;
+            background-color: #e3f2fd;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #1976D2;
+        }
+
+        .preview-section {
+            display: none;
+            margin-bottom: 40px;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .platform-selection {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .platform-btn {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .platform-btn.active {
+            border-color: #2196F3;
+            background: #e3f2fd;
+            color: #1976D2;
+        }
+
+        .platform-btn:hover {
+            border-color: #2196F3;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .generate-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-items: center;
+        }
+
+        .icon-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            border: 1px solid #eee;
+            width: 100%;
+            max-width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 200px;
+            transition: all 0.2s ease;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .icon-item img {
+            transition: all 0.2s ease;
+        }
+
+        .icon-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .icon-item button:hover {
+            background: #1976D2 !important;
+            transform: translateY(-1px);
+        }
+
+        .icon-item img {
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .icon-info {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .download-all-btn {
+            background: #FF9800;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .download-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2196F3;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .size-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .platform-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Android Icon Generator</h1>
+            <p>Automatically generate all mipmap sizes for Android from a single image</p>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Drag your image here or click to select</div>
+                    <button class="upload-btn" id="uploadBtn">
+                        Choose File
+                    </button>
+                </div>
+                <input type="file" id="fileInput" class="file-input" accept="image/*">
+            </div>
+
+            <div class="preview-section" id="previewSection">
+                <img id="previewImage" class="preview-image" src="" alt="Preview">
+                
+                <div class="platform-selection">
+                    <div class="platform-btn active" data-platform="android">
+                        <div>🤖 Android</div>
+                        <div style="font-size: 0.8em; margin-top: 5px;">All mipmap formats</div>
+                    </div>
+                </div>
+
+                <!-- Section 1: Background Color -->
+                <div class="config-section" style="margin: 25px 0; padding: 20px; background: linear-gradient(145deg, #fff5f5, #fff); border-radius: 12px; border-left: 4px solid #ff6b6b;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <span style="font-size: 1.5em;">🎨</span>
+                        <h3 style="color: #333; margin: 0;">Background Color</h3>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="color" id="backgroundColorPicker" value="#ffffff" 
+                                   style="width: 60px; height: 45px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer;">
+                            <span style="color: #666; font-size: 0.9em;">Choose color</span>
+                        </div>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="enableBackground" checked>
+                            <span style="color: #555; font-weight: 500;">Apply colored background to icons</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section 2: Spacing -->
+                <div class="config-section" style="margin: 25px 0; padding: 20px; background: linear-gradient(145deg, #f0f8ff, #fff); border-radius: 12px; border-left: 4px solid #4dabf7;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <span style="font-size: 1.5em;">📐</span>
+                        <h3 style="color: #333; margin: 0;">Internal Spacing</h3>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label for="paddingSlider" style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">
+                            Padding: <span id="paddingValue" style="color: #4dabf7; font-size: 1.1em;">8%</span>
+                        </label>
+                        <input type="range" id="paddingSlider" min="0" max="40" value="8" 
+                               style="width: 100%; cursor: pointer; margin-bottom: 8px;">
+                        <div style="font-size: 0.85em; color: #666; display: flex; justify-content: space-between;">
+                            <span>0% - No spacing</span>
+                            <span>40% - Maximum spacing</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #555;">
+                            Apply spacing to:
+                        </label>
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px 15px; background: white; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                                <input type="checkbox" id="applyToSquare">
+                                <span style="font-size: 1.2em;">🔲</span>
+                                <div>
+                                    <div style="font-weight: 500;">ic_launcher</div>
+                                    <div style="font-size: 0.8em; color: #666;">Square icons</div>
+                                </div>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px 15px; background: white; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                                <input type="checkbox" id="applyToRound">
+                                <span style="font-size: 1.2em;">⭕</span>
+                                <div>
+                                    <div style="font-weight: 500;">ic_launcher_round</div>
+                                    <div style="font-size: 0.8em; color: #666;">Circular icons</div>
+                                </div>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; padding: 10px 15px; background: white; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                                <input type="checkbox" id="applyToAdaptive">
+                                <span style="font-size: 1.2em;">🔄</span>
+                                <div>
+                                    <div style="font-weight: 500;">ic_launcher_foreground</div>
+                                    <div style="font-size: 0.8em; color: #666;">Adaptive icons</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Adaptive Configuration -->
+                <div class="config-section" style="margin: 25px 0; padding: 20px; background: linear-gradient(145deg, #f0fff4, #fff); border-radius: 12px; border-left: 4px solid #51cf66;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <span style="font-size: 1.5em;">🛠️</span>
+                        <h3 style="color: #333; margin: 0;">Adaptive Icons (Android 8.0+)</h3>
+                    </div>
+                    <div style="background: #e6f7ff; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 3px solid #1890ff;">
+                        <small style="color: #0050b3;">
+                            <strong>📱 mipmap-anydpi-v26:</strong> XML configuration for icons that automatically adapt 
+                            to launcher format (circular, square, squircle, etc.)
+                        </small>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="enableXmlPadding" checked>
+                            <span style="font-weight: bold; color: #555;">Generate adaptive configuration</span>
+                        </label>
+                    </div>
+
+                    <div id="xmlPaddingConfig" style="margin-left: 30px; padding-left: 15px; border-left: 2px solid #e9ecef;">
+                        <label for="xmlPaddingSlider" style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">
+                            XML Inset: <span id="xmlPaddingValue" style="color: #51cf66; font-size: 1.1em;">14dp</span>
+                        </label>
+                        <input type="range" id="xmlPaddingSlider" min="0" max="20" value="14" 
+                               style="width: 100%; cursor: pointer; margin-bottom: 8px;">
+                        <div style="font-size: 0.85em; color: #666;">
+                            <p style="margin: 5px 0;">Controls spacing in <code>ic_launcher_foreground_inset.xml</code> file</p>
+                            <p style="margin: 5px 0;">• <strong>0dp:</strong> No XML padding | <strong>14dp:</strong> Recommended | <strong>20dp:</strong> Maximum</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuration Preview -->
+                <div class="options-preview" id="optionsPreview" style="display: none; margin: 25px 0; padding: 20px; background: linear-gradient(145deg, #fafafa, #fff); border-radius: 12px; border: 1px solid #e9ecef;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <span style="font-size: 1.5em;">👁️</span>
+                        <h4 style="color: #333; margin: 0;">Configuration Preview</h4>
+                    </div>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">
+                            <div style="font-size: 0.9em; margin-bottom: 8px; color: #666; font-weight: 500;">🔲 Square</div>
+                            <canvas id="previewSquare" width="64" height="64" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">
+                            <div style="font-size: 0.9em; margin-bottom: 8px; color: #666; font-weight: 500;">⭕ Circular</div>
+                            <canvas id="previewRound" width="64" height="64" style="border: 1px solid #ddd; border-radius: 50%;"></canvas>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: white; border-radius: 8px; border: 1px solid #dee2e6;">
+                            <div style="font-size: 0.9em; margin-bottom: 8px; color: #666; font-weight: 500;">🔄 Adaptive</div>
+                            <canvas id="previewAdaptive" width="64" height="64" style="border: 1px solid #ddd; border-radius: 4px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="generate-btn" id="generateBtn">Generate Icons</button>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <p>Generating icons...</p>
+            </div>
+
+            <div class="results-section" id="resultsSection">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Generated Icons</h2>
+                <div class="results-grid" id="resultsGrid"></div>
+                <button class="download-all-btn" id="downloadAllBtn">Download All Icons</button>
+            </div>
+
+            <div class="info-section">
+                <h3>📋 Generated Icons for Android</h3>
+                <div class="size-list">
+                    <div>
+                        <strong>🔲 ic_launcher (Square):</strong><br>
+                        • mipmap-mdpi: 48x48px<br>
+                        • mipmap-hdpi: 72x72px<br>
+                        • mipmap-xhdpi: 96x96px<br>
+                        • mipmap-xxhdpi: 144x144px<br>
+                        • mipmap-xxxhdpi: 192x192px
+                    </div>
+                    <div>
+                        <strong>⭕ ic_launcher_round (Circular):</strong><br>
+                        • mipmap-mdpi: 48x48px<br>
+                        • mipmap-hdpi: 72x72px<br>
+                        • mipmap-xhdpi: 96x96px<br>
+                        • mipmap-xxhdpi: 144x144px<br>
+                        • mipmap-xxxhdpi: 192x192px
+                    </div>
+                    <div>
+                        <strong>🔄 ic_launcher_foreground (Adaptive):</strong><br>
+                        • mipmap-mdpi: 108x108px<br>
+                        • mipmap-hdpi: 162x162px<br>
+                        • mipmap-xhdpi: 216x216px<br>
+                        • mipmap-xxhdpi: 324x324px<br>
+                        • mipmap-xxxhdpi: 432x432px
+                    </div>
+                    <div>
+                        <strong>📄 Included XML Files:</strong><br>
+                        • drawable/ic_launcher_foreground_inset.xml<br>
+                        • mipmap-anydpi-v26/ic_launcher.xml<br>
+                        • mipmap-anydpi-v26/ic_launcher_round.xml<br>
+                        • values/colors.xml<br>
+                        • README.md (instructions)
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; text-align: center; font-size: 0.9em; color: #666;">
+                    <p>💡 <strong>Tip:</strong> Use a high-quality square image (minimum 512x512px) for best results</p>
+                    <p>📱 <strong>Total:</strong> 15 PNG icons + 4 XML files + colors.xml</p>
+                    <p>🚀 <strong>Includes:</strong> Configurable XML padding (default no visual padding, with XML inset)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

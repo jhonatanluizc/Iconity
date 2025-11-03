@@ -1,0 +1,421 @@
+/* Estilos adicionais e melhorias para o gerador de ícones */
+
+/* Animações suaves */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+    40%, 43% { transform: translateY(-10px); }
+    70% { transform: translateY(-5px); }
+}
+
+/* Aplicar animações */
+.container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.icon-item {
+    animation: slideIn 0.5s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+/* Melhorias visuais */
+.upload-area.processing {
+    border-color: #4CAF50;
+    background-color: #e8f5e8;
+}
+
+.platform-btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.platform-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.platform-btn:hover::before {
+    left: 100%;
+}
+
+/* Responsividade melhorada */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .upload-area {
+        padding: 40px 15px;
+    }
+    
+    .results-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+    }
+    
+    .icon-item {
+        padding: 15px;
+    }
+}
+
+/* Estados de loading melhorados */
+.generate-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.generate-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+/* Melhorias nos tooltips */
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Indicador de progresso */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2196F3, #21CBF3);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+/* Efeitos de hover melhorados */
+.upload-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(33, 150, 243, 0.3);
+}
+
+.download-all-btn:hover {
+    background: #F57C00;
+}
+
+/* Cores para diferentes plataformas */
+.icon-item[data-platform="android"] {
+    border-left: 4px solid #3DDC84;
+}
+
+.icon-item[data-platform="ios"] {
+    border-left: 4px solid #007AFF;
+}
+
+/* Estilo para drag and drop ativo */
+.upload-area.drag-active {
+    animation: bounce 0.6s ease-in-out;
+}
+
+/* Melhorias na grid de resultados */
+.results-grid {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Botão de limpar/reset */
+.reset-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 10px;
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+}
+
+/* Estilos para as opções de personalização */
+.options-section {
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.option-group {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.option-group label {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.option-group label:hover {
+    color: #2196F3;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #2196F3;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #2196F3;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="color"] {
+    border: 2px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+input[type="color"]:hover {
+    border-color: #2196F3;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+    accent-color: #2196F3;
+}
+
+/* Melhorias nos labels de checkbox */
+label:has(input[type="checkbox"]) {
+    transition: all 0.2s ease;
+}
+
+label:has(input[type="checkbox"]):hover {
+    background-color: #e3f2fd !important;
+    border-color: #2196F3 !important;
+}
+
+label:has(input[type="checkbox"]:checked) {
+    background-color: #e8f5e8 !important;
+    border-color: #4caf50 !important;
+}
+
+/* Estilo para code tags */
+code {
+    background-color: #f1f3f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #d63384;
+}
+
+/* Melhorias nos títulos de seção */
+h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Melhorias nos sliders */
+input[type="range"]:hover {
+    opacity: 0.8;
+}
+
+/* Melhorias nos inputs de cor */
+input[type="color"]:focus {
+    outline: 2px solid #2196F3;
+    outline-offset: 2px;
+}
+
+/* Estilos para as seções de configuração */
+.config-section {
+    transition: all 0.3s ease;
+}
+
+.config-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Melhorias nos cards de opção */
+.config-section label:has(input[type="checkbox"]) {
+    transition: all 0.2s ease;
+}
+
+.config-section label:has(input[type="checkbox"]):hover {
+    border-color: #4dabf7 !important;
+    background-color: #f8f9ff !important;
+    transform: translateY(-1px);
+}
+
+.config-section label:has(input[type="checkbox"]:checked) {
+    border-color: #51cf66 !important;
+    background-color: #f0fff4 !important;
+    box-shadow: 0 2px 8px rgba(81, 207, 102, 0.2);
+}
+
+/* Animação para o preview */
+.options-preview {
+    animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Melhorias nos canvas de preview */
+.options-preview canvas {
+    transition: all 0.2s ease;
+}
+
+.options-preview canvas:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Estilo para código inline */
+code {
+    background-color: #f1f3f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.85em;
+    color: #d63384;
+    border: 1px solid #e9ecef;
+}
+
+/* Responsividade para as seções */
+@media (max-width: 768px) {
+    .config-section {
+        margin: 15px 0;
+        padding: 15px;
+    }
+    
+    .config-section label:has(input[type="checkbox"]) {
+        padding: 8px 12px;
+    }
+    
+    .options-preview > div {
+        gap: 15px;
+    }
+}
+
+/* Preview das opções */
+.options-preview {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+    border: 1px solid #eee;
+}
+
+/* Melhorias no layout mobile */
+@media (max-width: 768px) {
+    .platform-selection {
+        gap: 10px;
+    }
+    
+    .platform-btn {
+        min-width: 100px;
+        padding: 12px 20px;
+        font-size: 0.9em;
+    }
+    
+    .generate-btn, .download-all-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .options-section {
+        margin: 20px 0;
+        padding: 15px;
+    }
+
+    .options-section > div {
+        grid-template-columns: 1fr;
+    }
+}
