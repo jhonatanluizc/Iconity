@@ -4,7 +4,7 @@ A complete and professional icon generator for Android applications that automat
 
 ## 🌐 Site Oficial
 
-[Visite o site do Android Icon Generator](https://jhonatanluizc.github.io/Iconity)
+[Visit the Android Icon Generator website](https://jhonatanluizc.github.io/Iconity)
 
 ## 📱 Features
 
