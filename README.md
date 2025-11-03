@@ -2,6 +2,10 @@
 
 A complete and professional icon generator for Android applications that automatically creates all required sizes and formats from a single image.
 
+## 🌐 Site Oficial
+
+[Visite o site do Android Icon Generator](https://jhonatanluizc.github.io/Iconity)
+
 ## 📱 Features
 
 ### Supported Platform
